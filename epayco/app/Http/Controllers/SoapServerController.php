@@ -28,55 +28,6 @@ class SoapServerController extends Controller {
         $soapServer->setObject($service);
         $soapServer->handle();   
     }
-
-    public function prueba() {
-        $customerId = 20;
-        $sessionId = "asfdsdf";
-        $token = "token";
-        $customer = Customer::find($customerId);        
-
-        $from = new From("erkarebolledo@gmail.com", "Erka Rebolledo");
-        $tos = [
-            new To(
-                $customer->email,
-                $customer->name,
-                [
-                    'name' => $customer->name,
-                    'token' => $token,
-                    'sessionId' => $sessionId
-                ]
-            ),
-        ];
-        $email = new Mail($from, $tos);
-        $email->setTemplateId(env('SENDGRIDTEMPLATE'));
-        $sendgrid = new \SendGrid(env('SENDGRID'));
-        $response = $sendgrid->send($email);
-        print_r($response);        
-        die();
-        $customerId = 5;
-        $sessionId = "YhkCTqaqoh0GD9IzZBAUfWoko07oA3BUz2aRXUzA";
-        $token = "d10349";
-        $discount = 2;
-        $balance = Wallet::where('customer_id', $customerId)
-        ->where('session_id', $sessionId)
-        ->where('token', $token)
-        ->pluck('balance');
-
-        if (!isset($balance[0])) {
-            return ['success'=>false, 'msg'=>'Token y/o session incorrectos'];            
-        }
-
-        $balance = $balance[0];
-
-        if ($discount > $balance) {
-            return ['success'=>false, 'msg'=>'El saldo no es suficiente'];            
-        }
-
-        $balance = ($balance - $discount)*1;
-
-        $wallet = Wallet::updateOrCreate(['customer_id' => $customerId], ['balance' => $balance]);
-        return ['success'=>true, 'msg'=>'Operacion exitosa'];            
-    }
 }
 
 class Service {
@@ -87,7 +38,7 @@ class Service {
 
             return ['success'=>true];
         }catch(\Exception $e){
-            return ['success'=>false];
+            return ['success'=>false, "msg"=>'El correo ya fue registrado'];
         }
     }
 
@@ -175,4 +126,37 @@ class Service {
             return ['success'=>false];
         }
     }
+
+    public function verifyEmail($email) {
+        try{
+            $customer = Customer::where('email', $email)->pluck('id');
+
+            if (isset($customer[0]))
+                return ['success'=>false, 'msg'=>'El email ya esta registrado'];
+
+            return ['success'=>true];                            
+        }catch(\Exception $e){
+            return ['success'=>false];
+        }
+    }    
+
+    public function getCustomers() {
+        try{
+            $customers = \DB::table('customers')->get();
+
+            return ['success'=>true, 'customers'=>$customers];                            
+        }catch(\Exception $e){
+            return ['success'=>false];
+        }
+    }    
+    
+    public function getCustomer($id) {
+        try{
+            $customer = Customer::find($id);
+
+            return ['success'=>true, 'customer'=>$customer];                            
+        }catch(\Exception $e){
+            return ['success'=>false];
+        }
+    }        
 }

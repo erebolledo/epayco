@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+  <style>
+    .client-column {
+      background-color: #e9e9e9;
+      width: 30px;
+      font-weight: bold;
+    }
+    .msg-alert {
+      background-color: yellow;
+      color: red;
+      text-align: center;      
+    }
+    #customer-rows {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-light navbar-fixed-top" style="background-color: white;">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img src="../img/logo.png" alt="Girl in a jacket" height="100%"></a>
+    </div>
+  </div>
+</nav>
+  
+<div class="container" style="margin-top:60px">
+  <div class="text-center"><h2>Sistema de pagos</h2></div>
+  <div class="row" style="margin-top:0px">
+    <div class="col-md-8 col-sm-12">
+      <div id="users-contain" class="ui-widget">
+        <div class="text-center"><h3>Seleccione un cliente:</h3></div>
+          <div style="margin-top:20px">
+            <table id="users" class="table-bordered table table-striped table-hover table-condensed">
+              <thead>
+                <tr class="ui-widget-header ">
+                  <th style="width: 15%;">Documento</th>
+                  <th style="width: 35%;">Nombre</th>
+                  <th style="width: 35%;">Correo</th>
+                  <th style="width: 15%;">Celular</th>
+                </tr>
+              </thead>
+              <tbody id="customer-rows"></tbody>
+            </table>
+          </div>
+        </div>
+        <button id="create-user" type="button" class="btn btn-primary btn-block">Registrar nuevo cliente</button>
+      </div>
+      <div class="col-md-4 col-sm-12"> 
+        <div id="operations-user">
+          <h3 class="text-center">Cliente:</h3>
+          <table class="table-bordered table table-condensed" style="margin-top: 20px;">
+            <tbody>
+              <tr><td class="client-column">Documento:</td><td><span id="document"></span></td></tr>
+              <tr><td class="client-column">Nombre:</td><td><span id="name"></span></td></tr>
+              <tr><td class="client-column">Correo:</td><td><span id="email"></span></td></tr>
+              <tr><td class="client-column">Celular:</td><td><span id="cellphone"></span></td></tr>
+            </tbody>            
+          </table>
+          <div style="font-weight: bold;" id="balance" ></div>
+          <br>
+          <div id="buttons">
+            <button id="credit-user" type="button" class="btn btn-success btn-block">Recargar saldo</button>            
+            <button id="debit-user" type="button" class="btn btn-success btn-block">Pagar</button>
+          </div>
+        </div>
+    </div>
+  </div>  
+</div>
+
+<!-- Modal para el registro del cliente-->
+<div class="modal fade" id="registry-modal" role="dialog">
+  <div class="modal-dialog">  
+    <div class="modal-content">
+      <div class="modal-header" style="padding:35px 50px;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="text-center"><h4>Registro</h4></div>
+      </div>
+      <div class="modal-body" style="padding:40px 50px;">
+        <div class="msg-alert" id="msg-alert"></div>
+        <form role="form">
+          <div class="form-group">
+            <label for="usrname">Documento</label>
+            <input type="text" class="form-control" id="document-registry" placeholder="73206069">
+          </div>
+          <div class="form-group">
+            <label for="psw">Nombre</label>
+            <input type="text" class="form-control" id="name-registry" placeholder="Luis Perez">
+          </div>
+          <div class="form-group">
+            <label for="psw">Email</label>
+            <input type="text" class="form-control" id="email-registry" placeholder="lperez@gmail.com">
+          </div>
+          <div class="form-group">
+            <label for="psw">Celular</label>
+            <input type="text" class="form-control" id="cellphone-registry" placeholder="3105551234">
+          </div>          
+          <div class="text-right">
+            <button id="registry-user" type="button" class="btn btn-success">Registrar</button>
+            <button type="button" class="btn btn-danger btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+</div> 
+
+<!-- Modal para credito cliente-->
+<div class="modal fade" id="credit-modal" role="dialog">
+  <div class="modal-dialog">  
+    <div class="modal-content">
+      <div class="modal-header" style="padding:35px 50px;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="text-center"><h4>Recargar</h4></div>
+      </div>
+      <div class="modal-body" style="padding:40px 50px;">
+        <div class="msg-alert" id="msg-credit"></div>
+        <form role="form">
+          <div class="form-group">
+            <label for="usrname">Monto a recargar</label>
+            <input type="number" min="0" class="form-control" id="balance-add" placeholder="1000.00">
+          </div>
+          <div class="text-right">
+            <button onclick="doCredit();" type="button" class="btn btn-success">Aceptar</button>
+            <button type="button" class="btn btn-danger btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+</div> 
+
+<!-- Modal para debito cliente-->
+<div class="modal fade" id="debit-modal" role="dialog">
+  <div class="modal-dialog">  
+    <div class="modal-content">
+      <div class="modal-header" style="padding:35px 50px;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="text-center"><h4>Pagar</h4></div>
+      </div>
+      <div class="modal-body" style="padding:40px 50px;">
+        <div class="msg-alert" id="msg-debit"></div>
+        <form role="form">
+          <div class="form-group">
+            <label for="usrname">Monto a debitar</label>
+            <input type="number" min="0" class="form-control" id="balance-minus" placeholder="1000.00">
+          </div>
+          <br>
+          <div id="credentials" style="display: none;">
+            <label for="usrname">Credenciales:</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="session-id" placeholder="SessionID">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="token" placeholder="Token">
+            </div>                              
+          </div>
+          <div class="text-right" id="payment-buttons">
+            <button onclick="doPayment();" type="button" class="btn btn-success">Aceptar</button>
+            <button type="button" class="btn btn-danger btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="text-right" id="debit-buttons" style="display: none;">
+            <button onclick="doDebit();" type="button" class="btn btn-success">Aceptar</button>
+            <button type="button" class="btn btn-danger btn-default" data-dismiss="modal">Cancelar</button>
+          </div>          
+        </form>
+      </div>
+    </div>
+    
+  </div>
+</div> 
+
+<input type="hidden" value="" id="customer-actual">
+
+<script>
+  function doCredit() {
+    let amount = $('#balance-add').val();
+    if (amount < 0 || !amount) {
+      $('#msg-credit').html('El monto a recargar debe ser mayor que 0');
+    }else{
+      let customerId = $('#customer-actual').val();
+      let params = {'add': amount, 'customerId': customerId};      
+      $.post("/api/credit", params, function(data, status) {
+        if (data.success) {
+          Swal.fire({
+            title: 'La recarga se realizo de manera exitosa',
+            icon: 'success'
+          })          
+        }else{
+          Swal.fire({
+            title: 'Ocurrio un error, favor reintentar mas tarde',
+            icon: 'error'
+          })          
+        }
+        $('#balance-add').val("");        
+        $("#credit-modal").modal('hide');
+
+        let row = {id: customerId};
+        rowSelect(row);
+      });
+    }
+  }
+
+  function doPayment() {
+    let amount = $('#balance-minus').val();
+    if (amount < 0 || !amount) {
+      $('#msg-debit').html('El monto a debitar debe ser mayor que 0');
+    }else{    
+      let customerId = $('#customer-actual').val();
+      $.post("/api/payment", {customerId: customerId}, function(data, status) {
+        if (data.success) {
+          $('#msg-debit').html('Favor introduzca el Session ID y Token que les fueron enviados a su email');
+          $('#credentials').show();
+          $('#payment-buttons').hide();
+          $('#debit-buttons').show();
+        }else{
+          Swal.fire({
+            title: 'Ocurrio un error, favor reintentar mas tarde',
+            icon: 'error'
+          });  
+          $('#balance-minus').val("");        
+          $("#debit-modal").modal('hide');
+        }
+      });
+    }
+  }   
+
+  function doDebit() {
+    let amount = $('#balance-minus').val();
+    let customerId = $('#customer-actual').val();
+    let sessionId = $('#session-id').val();
+    let token = $('#token').val();
+
+    let params = {customerId: customerId, sessionId: sessionId, token: token, discount: amount}
+    $.post("/api/debit", params, function(data, status) {
+      if (data.success) {
+        Swal.fire({
+            title: 'El debito se realizo de manera exitosa',
+            icon: 'success'
+        }) 
+        $('#balance-minus').val("");   
+        $('#session-id').val("");     
+        $("#debit-modal").modal('hide');
+        $('#token').val("");
+
+        let row = {id: customerId};
+        rowSelect(row);        
+      }else{
+        $('#msg-debit').html('Favor introduzca el Session ID y Token que les fueron enviados a su email y/o revise que tenga el sado necesario en su Wallet');
+      }
+    });
+  }
+
+  function rowSelect(row) {
+    let id = row.id;
+
+    $.post("/api/get-customer", {'id': id}, function(data, status) {  
+      let customer = data.customer.attributes;  
+
+      $('#document').html(customer.document);
+      $('#name').html(customer.name);
+      $('#email').html(customer.email);
+      $('#cellphone').html(customer.cellphone);
+
+      $('#customer-actual').val(id);
+
+      $.post("/api/balance", {'customerId': id}, function(data, status) {  
+        $('#balance').html(`Su saldo actual es: ${data.balance}$`);
+      });
+
+      $('#buttons').show();
+    });
+  }  
+
+  $(document).ready(function(){
+    $('#buttons').hide();
+
+    $.post("/api/get-customers", function(data, status) {
+      let rows = "";
+      data.customers.items.forEach(row => {
+        rows += `<tr id="${row.id}" onclick="rowSelect(this);"><td>${row.document}</td>`;
+        rows += `<td>${row.name}</td>`;
+        rows += `<td>${row.email}</td>`;
+        rows += `<td>${row.cellphone}</td></tr>`;
+      });
+
+      $('#customer-rows').html(rows);
+    });
+
+    $("#create-user").click(function(){
+      $("#registry-modal").modal();
+    });
+
+    $("#credit-user").click(function(){
+      $("#credit-modal").modal();
+    });    
+
+    $("#debit-user").click(function(){
+      $("#debit-modal").modal();
+    });  
+    
+    $(".btn-danger").click(function(){
+      $('#balance-add').val("");
+      $('#balance-minus').val("");
+      $('#document-registry').val("");
+      $('#name-registry').val("");
+      $('#email-registry').val("");
+      $('#cellphone-registry').val("");   
+      $('#session-id').val("");    
+      $('#token').val(""); 
+      $('#debit-buttons').hide();
+    });      
+
+    $("#registry-user").click(function(e){
+      if (!$('#document-registry').val() ||
+        !$('#name-registry').val() ||
+        !$('#email-registry').val() ||
+        !$('#cellphone-registry').val()) {
+          $('#msg-alert').html('Todos los campos son requeridos');
+      }else{
+        let email = {'email': $('#email-registry').val()};
+        $.post("/api/verify-email", email, function(data, status){
+          if (!data.success) {
+            $('#msg-alert').html(data.msg);
+          }else{
+            let customer = {
+              'email': $('#email-registry').val(),
+              'name': $('#name-registry').val(),
+              'document': $('#document-registry').val(),
+              'cellphone': $('#cellphone-registry').val()
+            }
+            $.post("/api/customer-registry", customer, function(data, status){
+              if (data.success) {
+                alert('El cliente fue registrado de manera correcta');      
+                window. location. reload();
+              }
+            });
+          }
+        });
+      }
+    });    
+  });
+  </script>
+</body>
+</html>

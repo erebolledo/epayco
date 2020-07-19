@@ -1,0 +1,171 @@
+{
+	"variables": [],
+	"info": {
+		"name": "epayco",
+		"_postman_id": "c739babf-337a-1e5c-f521-d38d45d13655",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registro de cliente",
+			"request": {
+				"url": "http://epayco/api/customer-registry",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": \"12961060\",\n    \"name\": \"Erka Rebolledo\",\n    \"email\": \"samurebolledo@gmail.com\",\n    \"cellphone\": \"04166424326\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Recarga billetera",
+			"request": {
+				"url": "http://epayco/api/credit",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"add\": \"10.5\",\n    \"customerId\": \"5\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Pagar",
+			"request": {
+				"url": "http://epayco/api/payment",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": \"20\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar saldo",
+			"request": {
+				"url": "http://epayco/api/balance",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": \"20\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar correo",
+			"request": {
+				"url": "http://epayco/api/verify-email",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"erkarebolledox@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener clientes",
+			"request": {
+				"url": "http://epayco/api/get-customers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"erkarebolledox@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener cliente",
+			"request": {
+				"url": "http://epayco/api/get-customer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"20\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirmar y debitar",
+			"request": {
+				"url": "http://epayco/api/debit",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": \"20\",\n    \"sessionId\": \"iNEUc0pzVgoSEX2r0UvkgSUD6wfNl05KVcJeem0e\",\n    \"token\": \"8b7c76\",\n    \"discount\": \"5.20\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

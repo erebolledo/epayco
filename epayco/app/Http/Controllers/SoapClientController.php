@@ -85,5 +85,45 @@ class SoapClientController extends Controller {
         } catch (Exception $ex) {
             exit("soap error: " . $ex->getMessage());
         }        
+    }    
+    
+    function verifyEmail(Request $request) {
+        try {
+            $email = $request->input('email');           
+
+            $response = $this->client->verifyEmail($email);
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
     }        
+
+    function getCustomers(Request $request) {
+        try {     
+            $response = $this->client->getCustomers();
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
+    }           
+    
+    function getCustomer(Request $request) {
+        try {     
+            $id = $request->input('id');
+
+            $response = $this->client->getCustomer($id);
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
+    }               
 }

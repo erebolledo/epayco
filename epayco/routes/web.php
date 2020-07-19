@@ -14,17 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::post('/server', 'SoapServerController@server');
-Route::post('/prueba', 'SoapServerController@prueba');
 
-Route::post('/customer-registry', 'SoapClientController@customerRegistry');
-Route::post('/credit', 'SoapClientController@credit');
-Route::post('/payment', 'SoapClientController@payment');
-Route::post('/debit', 'SoapClientController@debit');
-Route::post('/balance', 'SoapClientController@balance');
 
 
 
