@@ -39,6 +39,51 @@ class SoapClientController extends Controller {
             ->header('Content-Type', 'application/json');               
 		} catch (Exception $ex) {
 			exit("soap error: " . $ex->getMessage());
-		}
-	}    
+        }
+    }    
+        
+    function payment(Request $request) {
+        try {
+            $customerId = $request->input('customerId');            
+
+            $response = $this->client->payment($customerId);
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
+    }    
+    
+    function debit(Request $request) {
+        try {
+            $customerId = $request->input('customerId');            
+            $sessionId = $request->input('sessionId');
+            $token = $request->input('token');
+            $discount = $request->input('discount');               
+
+            $response = $this->client->debit($customerId, $sessionId, $token, $discount);
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
+    } 
+    
+    function balance(Request $request) {
+        try {
+            $customerId = $request->input('customerId');            
+
+            $response = $this->client->balance($customerId);
+
+            return response()
+            ->json($response, 200)
+            ->header('Content-Type', 'application/json');               
+        } catch (Exception $ex) {
+            exit("soap error: " . $ex->getMessage());
+        }        
+    }        
 }
