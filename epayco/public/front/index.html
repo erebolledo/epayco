@@ -287,6 +287,23 @@
     });
   }  
 
+  function cleanModals() {
+    $('#balance-add').val("");
+    $('#balance-minus').val("");
+    $('#document-registry').val("");
+    $('#name-registry').val("");
+    $('#email-registry').val("");
+    $('#cellphone-registry').val("");   
+    $('#session-id').val("");    
+    $('#token').val(""); 
+    $('#debit-buttons').hide();
+    $('#credentials').hide();   
+    $('#payment-buttons').show();        
+    $('#msg-debit').html("");
+    $('#msg-alert').html("");
+    $('#msg-credit').html("");
+  }
+
   $(document).ready(function(){
     $('#buttons').hide();
 
@@ -312,19 +329,19 @@
 
     $("#debit-user").click(function(){
       $("#debit-modal").modal();
-    });  
-    
-    $(".btn-danger").click(function(){
-      $('#balance-add').val("");
-      $('#balance-minus').val("");
-      $('#document-registry').val("");
-      $('#name-registry').val("");
-      $('#email-registry').val("");
-      $('#cellphone-registry').val("");   
-      $('#session-id').val("");    
-      $('#token').val(""); 
-      $('#debit-buttons').hide();
     });      
+    
+    $("#debit-modal").on('hidden.bs.modal', function() {
+      cleanModals();
+    });
+
+    $("#credit-modal").on('hidden.bs.modal', function() {
+      cleanModals();
+    });    
+
+    $("#registry-modal").on('hidden.bs.modal', function() {
+      cleanModals();
+    });
 
     $("#registry-user").click(function(e){
       if (!$('#document-registry').val() ||
