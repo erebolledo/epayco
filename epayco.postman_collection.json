@@ -10,7 +10,7 @@
 		{
 			"name": "Registro de cliente",
 			"request": {
-				"url": "http://epayco/api/customer-registry",
+				"url": "http://192.241.131.213/api/customer-registry",
 				"method": "POST",
 				"header": [
 					{
@@ -30,7 +30,7 @@
 		{
 			"name": "Recarga billetera",
 			"request": {
-				"url": "http://epayco/api/credit",
+				"url": "http://192.241.131.213/api/credit",
 				"method": "POST",
 				"header": [
 					{
@@ -50,7 +50,7 @@
 		{
 			"name": "Pagar",
 			"request": {
-				"url": "http://epayco/api/payment",
+				"url": "http://192.241.131.213/api/payment",
 				"method": "POST",
 				"header": [
 					{
@@ -70,7 +70,7 @@
 		{
 			"name": "Consultar saldo",
 			"request": {
-				"url": "http://epayco/api/balance",
+				"url": "http://192.241.131.213/api/balance",
 				"method": "POST",
 				"header": [
 					{
@@ -90,7 +90,7 @@
 		{
 			"name": "Verificar correo",
 			"request": {
-				"url": "http://epayco/api/verify-email",
+				"url": "http://192.241.131.213/api/verify-email",
 				"method": "POST",
 				"header": [
 					{
@@ -110,7 +110,7 @@
 		{
 			"name": "Obtener clientes",
 			"request": {
-				"url": "http://epayco/api/get-customers",
+				"url": "http://192.241.131.213/api/get-customers",
 				"method": "POST",
 				"header": [
 					{
@@ -150,7 +150,7 @@
 		{
 			"name": "Confirmar y debitar",
 			"request": {
-				"url": "http://epayco/api/debit",
+				"url": "http://192.241.131.213/api/debit",
 				"method": "POST",
 				"header": [
 					{
